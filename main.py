@@ -110,26 +110,22 @@ def change(total,drink):
         return change
 
 
-# TODO: 1. Ask user what he would like (espresso,latte,cappuccino or report)
+def run():
+    """Runs resource quantity checker, transaction verification and end message"""
+    resource_check(drink)
+    print("Please insert coins")
+    total = money_sum()
+    if change(total, drink):
+        resource_update(drink, resources, MENU, total, change)
+
+
 resources["Money"]=0
 should_continue = True
 while should_continue:
     drink = input("What would you like? (espresso, latte, cappuccino) ")
-    if drink == "report":
-        not_stop=True
-        while not_stop:
-            report(resources)
-            drink = input("What would you like? (espresso, latte, cappuccino) ")
-            if drink != "report":
-                not_stop=False
-    # TODO: 1.1 Check resources. If resources too low, inform user so
-    if resource_check(drink):
-
-        # TODO: 2. Inform user to insert coins.
-
-        print("Please insert coins")
-
-        # TODO: 3.1 Cancel transaction if too low, give back change if too high
-        total = money_sum()
-        if change(total, drink):
-            resource_update(drink, resources, MENU, total, change)
+    if drink == "off":
+        should_continue = False
+    elif drink == "report":
+        report(resources)
+    else:
+        run()
